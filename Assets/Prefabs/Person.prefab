@@ -119,9 +119,10 @@ GameObject:
   - component: {fileID: 6717940132418120852}
   - component: {fileID: 6838182095276844774}
   - component: {fileID: 3748912126136237893}
+  - component: {fileID: 6209845259698487857}
   m_Layer: 3
   m_Name: Person
-  m_TagString: Untagged
+  m_TagString: Person
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,3 +265,32 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6209845259698487857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584243117860894220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 745d49950aea8aa4bad5603c91cc5fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 3748912126136237893}
+  rb: {fileID: 0}
+  mindState: 0
+  actionState: 0
+  head: {fileID: 2923046626420774443}
+  population: []
+  buildings: []
+  hiveMindColor: {fileID: 2100000, guid: b7b58127cae1d7049a34b267a47dcd8b, type: 2}
+  singleMindColor: {fileID: 2100000, guid: 6e2510cd235f303448fb669837fdf66a, type: 2}
+  maxDetectionRange: 50
+  minDetectionRange: 10
+  attackRange: 1
+  target: {fileID: 0}
+  turnTimer: 0
+  maxTurnTimer: 5
+  baseSpeed: 5
+  HiveSpeedBuff: 1
