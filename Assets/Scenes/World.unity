@@ -493,11 +493,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 279503334}
   - {fileID: 1535115733}
   - {fileID: 835473304}
   - {fileID: 805897012}
   - {fileID: 577055603}
-  - {fileID: 279503334}
   - {fileID: 403897695}
   - {fileID: 990452256}
   - {fileID: 485317596}
@@ -1634,7 +1634,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3584243117860894220, guid: 55a8e66dea5f42b47a69a5b4e0fc63cd, type: 3}
       propertyPath: m_Name
-      value: Person (4)
+      value: Person (Infected)
       objectReference: {fileID: 0}
     - target: {fileID: 3584243117860894220, guid: 55a8e66dea5f42b47a69a5b4e0fc63cd, type: 3}
       propertyPath: m_TagString
@@ -1647,6 +1647,10 @@ PrefabInstance:
     - target: {fileID: 6209845259698487857, guid: 55a8e66dea5f42b47a69a5b4e0fc63cd, type: 3}
       propertyPath: mindState
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209845259698487857, guid: 55a8e66dea5f42b47a69a5b4e0fc63cd, type: 3}
+      propertyPath: actionState
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6209845259698487857, guid: 55a8e66dea5f42b47a69a5b4e0fc63cd, type: 3}
       propertyPath: maxTurnTimer
