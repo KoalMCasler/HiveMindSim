@@ -9,36 +9,36 @@ public class HiveMind : MonoBehaviour
     [Header("Pathfinding")]
     public GameManager gameManager;
     public NavMeshAgent agent;
-    public enum MindState { singleMind, hiveMind}
+    public enum MindState { singleMind, hiveMind, clearMind}
     [Header("States")]
     public MindState mindState;
-    public enum ActionState { wandering, attacking, following, searching}
+    public enum ActionState { wandering, attacking, searching, fleeing}
     public ActionState actionState;
     [Header("Variables")]
     public GameObject target;
     public GameObject head;
     public Material hiveMindColor;
     public Material singleMindColor;
+    public Material clearMindColor;
+    public Material fleeingColor;
     public float maxDetectionRange = 50;
     public float minDetectionRange = 5;
     public float attackRange = 1;
     public float turnTimer;
     public float maxTurnTimer;
+    public float fleeTime;
+    public float maxFleeTime;
     private float distance;
     public float targetDistance;
-    public float baseSpeed;
-    public float HiveSpeedBuff;
-    void Awake()
-    {
-        agent = this.GetComponent<NavMeshAgent>();
-        gameManager = GameManager.gameManager;
-    }
 
     void Start()
     {
-        if(mindState == MindState.hiveMind)
+        agent = this.GetComponent<NavMeshAgent>();
+        fleeTime = maxFleeTime;
+        target = null;
+        if(gameManager == null)
         {
-            gameManager.hivePop.Add(this.gameObject);
+            gameManager = FindObjectOfType<GameManager>();
         }
     }
 
@@ -48,18 +48,28 @@ public class HiveMind : MonoBehaviour
         switch(actionState)
         {
             case ActionState.wandering: Wander(); break;
-            case ActionState.following: Follow(); break;
             case ActionState.attacking: Attack(); break;
             case ActionState.searching: Search(); break;
+            case ActionState.fleeing: Flee(); break;
         }
         if(mindState == MindState.singleMind)
         {
             head.GetComponent<Renderer>().material = singleMindColor;
         }
-        if(mindState == MindState.hiveMind)
+        else if(mindState == MindState.hiveMind)
         {
-            head.GetComponent<Renderer>().material = hiveMindColor;
-            agent.speed = baseSpeed + HiveSpeedBuff;
+            if(actionState != ActionState.fleeing)
+            {
+                head.GetComponent<Renderer>().material = hiveMindColor;
+            }
+            else
+            {
+                head.GetComponent<Renderer>().material = fleeingColor;
+            }
+        }
+        else if(mindState == MindState.clearMind)
+        {
+            head.GetComponent<Renderer>().material = clearMindColor;
         }
         if(target != null)
         {
@@ -67,39 +77,38 @@ public class HiveMind : MonoBehaviour
         }
         if(CheckForPopulationInfection())
         {
-            if(this.gameObject == gameManager.hivePop[0])
-            {
-                actionState = ActionState.wandering;
-            }
-            else
-            {
-                actionState = ActionState.following;
-            }
+            actionState = ActionState.wandering;
         }
     }
 
     void Wander()
     {
-        if(mindState == MindState.singleMind || gameManager.genPop.Count == 0)
+        CheckSuroundings();
+        turnTimer -= Time.deltaTime;
+        if(turnTimer <= 0)
+        {
+            PickRandomBuilding();
+            agent.SetDestination(target.transform.position);
+            turnTimer = maxTurnTimer;
+        }
+        else if(targetDistance < minDetectionRange)
+        {
+            PickRandomBuilding();
+            turnTimer = maxTurnTimer;
+        }
+        CheckTarget();
+    }
+
+    void Flee()
+    {
+        fleeTime -= Time.deltaTime;
+        if(fleeTime <= 0)
         {
             CheckSuroundings();
-            turnTimer -= Time.deltaTime;
-            if(turnTimer <= 0)
-            {
-                PickRandomBuilding();
-                agent.SetDestination(target.transform.position);
-                turnTimer = maxTurnTimer - Random.Range(-2f,2f);
-            }
-            else if(targetDistance < minDetectionRange)
-            {
-                PickRandomBuilding();
-            }
-            CheckTarget();
+            fleeTime = maxFleeTime;
         }
-        else
-        {
-            CheckSuroundings();
-        }
+        //FindHiveMember();
+        agent.SetDestination(-target.transform.position);
     }
 
     void Attack()
@@ -115,6 +124,14 @@ public class HiveMind : MonoBehaviour
                 gameManager.genPop.Remove(target);
                 gameManager.hivePop.Add(target);
             }
+            else if(targetDistance < attackRange && target.GetComponent<HiveMind>().mindState == MindState.hiveMind)
+            {
+                actionState = ActionState.searching;
+                target.GetComponent<HiveMind>().mindState = MindState.singleMind;
+                target.GetComponent<HiveMind>().actionState = ActionState.wandering;
+                gameManager.hivePop.Remove(target);
+                gameManager.genPop.Add(target);
+            }
             agent.SetDestination(target.transform.position);
         }
     }
@@ -126,52 +143,44 @@ public class HiveMind : MonoBehaviour
         {
             CheckTarget();
         }
-        else
-        {
-            actionState = ActionState.following;
-        }
-    }
-
-    void Follow()
-    {
-        target = gameManager.hivePop[0];
-        agent.SetDestination(target.transform.position);
     }
 
     void CheckSuroundings()
     {
+        List<float> distances = new List<float>();
         if(mindState == MindState.hiveMind)
         {
-            List<float> distances = new List<float>();
             for(int i = 0; i < gameManager.genPop.Count; i++)
             {
                 distance = Vector3.Distance(this.transform.position, gameManager.genPop[i].transform.position);
                 distances.Add(distance);
-                if(distances[distances.IndexOf(distances.Min())] < maxDetectionRange && gameManager.genPop[distances.IndexOf(distances.Min())].GetComponent<HiveMind>().mindState != MindState.hiveMind && gameManager.genPop[distances.IndexOf(distances.Min())] != this.gameObject)
+                if(distances[distances.IndexOf(distances.Min())] < maxDetectionRange)
                 {   
                     target = gameManager.genPop[distances.IndexOf(distances.Min())];
                 }
-                else if(gameManager.genPop[distances.IndexOf(distances.Min())].GetComponent<HiveMind>().mindState == MindState.hiveMind && CheckForPopulationInfection())
-                {
-                    actionState = ActionState.following;
+            }
+            if(target.GetComponent<HiveMind>().mindState == MindState.clearMind)
+            {
+                actionState = ActionState.fleeing;
+            }
+            else
+            {
+                actionState = ActionState.searching;
+            }
+        }
+        if(mindState == MindState.clearMind)
+        {
+            for(int i = 0; i < gameManager.hivePop.Count; i++)
+            {
+                distance = Vector3.Distance(this.transform.position, gameManager.hivePop[i].transform.position);
+                distances.Add(distance);
+                if(distances[distances.IndexOf(distances.Min())] < maxDetectionRange)
+                {   
+                    target = gameManager.hivePop[distances.IndexOf(distances.Min())];
                 }
                 else
                 {
-                    if(mindState == MindState.singleMind)
-                    {
-                        actionState = ActionState.wandering;
-                    }
-                    if(mindState == MindState.hiveMind)
-                    {
-                        actionState = ActionState.searching;
-                    }
-                }
-            }
-            if(target != null)
-            {
-                if(target.GetComponent<HiveMind>() != null && target.GetComponent<HiveMind>().target == this)
-                {
-                    target = gameManager.genPop[distances.IndexOf(distances.Max())];
+                    actionState = ActionState.searching;
                 }
             }
         }
@@ -201,6 +210,10 @@ public class HiveMind : MonoBehaviour
             {
                 actionState = ActionState.searching;
             }
+            if(mindState == MindState.clearMind)
+            {
+                actionState = ActionState.attacking;
+            }
         }
     }
 
@@ -209,16 +222,26 @@ public class HiveMind : MonoBehaviour
         target = gameManager.buildings[Random.Range(0,gameManager.buildings.Count)];
     }
 
-    void FindClosestPerson()
+    void FindHiveMember()
     {
         List<float> distances = new List<float>();
         for(int i = 0; i < gameManager.hivePop.Count; i++)
         {
             distance = Vector3.Distance(this.transform.position, gameManager.hivePop[i].transform.position);
-            distances.Add(distance);
-            if(distances[i] < maxDetectionRange)
-            {   
-                target = gameManager.hivePop[distances.IndexOf(distances.Min())];
+            if(distance > minDetectionRange)
+            {
+                distances.Add(distance);
+            }
+            if(distances.Count != 0)
+            {
+                if(distances[distances.IndexOf(distances.Min())] < maxDetectionRange)
+                {   
+                    target = gameManager.hivePop[distances.IndexOf(distances.Min())];
+                }
+            }
+            else
+            {
+                PickRandomBuilding();
             }
         }
     }

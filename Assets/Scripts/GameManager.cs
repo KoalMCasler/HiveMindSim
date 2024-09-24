@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> hivePop;
     public List<GameObject> genPop;
     public List<GameObject> buildings;
+    public float clearMindSpawnCount;
+    public float infectedSpawnCount;
+
     void Awake()
     {
         if(gameManager != null)
@@ -23,8 +26,21 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();  
+    }
+
+    public void Initialize()
+    {
         GetBuildings();
         GetPopulation();
+        for(int i = 0; i < infectedSpawnCount; i++)
+        {
+            PickInfected();
+        }
+        for(int i = 0; i < clearMindSpawnCount; i++)
+        {
+            PickClearMind();      
+        }
     }
 
     // Update is called once per frame
@@ -34,6 +50,7 @@ public class GameManager : MonoBehaviour
     }
     void GetBuildings()
     {
+        buildings.Clear();
         GameObject[] buildingArray = GameObject.FindGameObjectsWithTag("Building");
         if(buildingArray[0] != null)
         {
@@ -49,16 +66,47 @@ public class GameManager : MonoBehaviour
 
     void GetPopulation()
     {
+        hivePop.Clear();
+        genPop.Clear();
         GameObject[] people = GameObject.FindGameObjectsWithTag("Person");
         if(people[0] != null)
         {
             foreach(GameObject i in people)
             { 
-                if(i.GetComponent<HiveMind>().mindState == HiveMind.MindState.singleMind)
+                if(i.GetComponent<HiveMind>().mindState == HiveMind.MindState.singleMind || i.GetComponent<HiveMind>().mindState == HiveMind.MindState.clearMind)
                 {
                     genPop.Add(i);
                 }
             }
+        }
+    }
+
+    void PickClearMind()
+    {
+        GameObject target = genPop[Random.Range(0,genPop.Count)];
+        if(target.GetComponent<HiveMind>().mindState != HiveMind.MindState.clearMind)
+        {
+            target.GetComponent<HiveMind>().mindState = HiveMind.MindState.clearMind;
+            target.GetComponent<HiveMind>().actionState = HiveMind.ActionState.searching;
+        }
+        else
+        {
+            PickClearMind();
+        }
+    }
+
+    void PickInfected()
+    {
+        GameObject target = genPop[Random.Range(0,genPop.Count)];
+        if(target.GetComponent<HiveMind>().mindState != HiveMind.MindState.clearMind)
+        {
+            target.GetComponent<HiveMind>().mindState = HiveMind.MindState.hiveMind;
+            genPop.Remove(target);
+            hivePop.Add(target);
+        }
+        else
+        {
+            PickInfected();
         }
     }
 }
