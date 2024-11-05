@@ -110,7 +110,6 @@ public class HiveMind : MonoBehaviour
 
     void Flee()
     {
-        CheckSuroundings();
         PickRandomBuilding();
         fleeTime -= Time.deltaTime;
         if(fleeTime < 0)
