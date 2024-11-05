@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "HiveMindSim.sln"
+    "dotnet.defaultSolution": "HiveMindSim.sln",
+    "dotnet.preferCSharpExtension": true
 }

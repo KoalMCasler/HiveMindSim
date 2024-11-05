@@ -40,14 +40,14 @@ public class GameManager : MonoBehaviour
         GetBuildings();
         surface.BuildNavMesh();
         GetPopulation();
-        for(int i = 0; i < infectedSpawnCount; i++)
-        {
-            PickInfected();
-        }
-        for(int i = 0; i < clearMindSpawnCount; i++)
-        {
-            PickClearMind();      
-        }
+        // for(int i = 0; i < infectedSpawnCount; i++)
+        // {
+        //     PickInfected();
+        // }
+        // for(int i = 0; i < clearMindSpawnCount; i++)
+        // {
+        //     PickClearMind();      
+        // }
     }
 
     // Update is called once per frame
@@ -81,10 +81,7 @@ public class GameManager : MonoBehaviour
         {
             for(int i = 0; i < spawnPoints.Length; i++)
             { 
-                if(genPop.Count < maxPopulation)
-                {
-                    genPop.Add(Instantiate(person, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation));
-                }
+                genPop.Add(Instantiate(person, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation));
             }
         }
     }

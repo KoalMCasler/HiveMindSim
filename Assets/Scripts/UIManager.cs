@@ -22,38 +22,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        clearMindSpawnSlider.minValue = gameManager.clearMindSpawnCount;
-        infectedSpawnSlider.minValue = gameManager.infectedSpawnCount;
-        clearMindSpawnSlider.value = clearMindSpawnSlider.minValue;
-        infectedSpawnSlider.value = infectedSpawnSlider.minValue;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        UpdateText();
-        UpdateSlider();
-    }
-
     public void QuitGame()
     {
         //Debug line to test quit function in editor
         //UnityEditor.EditorApplication.isPlaying = false;
         Application.Quit();
-    }
-
-    void UpdateSlider()
-    {
-        gameManager.clearMindSpawnCount = clearMindSpawnSlider.value;
-        gameManager.infectedSpawnCount = infectedSpawnSlider.value;
-        clearMindSliderText.text = string.Format("Clear Mind Spawn Count = {0}", gameManager.clearMindSpawnCount);
-        infectedSliderText.text = string.Format("Infected Spawn Count = {0}", gameManager.infectedSpawnCount);
-    }
-    void UpdateText()
-    {
-        infectedPopText.text = string.Format("INFECTED POPULATION = {0}", gameManager.hivePop.Count);
-        healthPopText.text = string.Format("HEALTHY POPULATION = {0}", gameManager.genPop.Count);
     }
 
     public void ReloadScene()
@@ -65,8 +38,6 @@ public class UIManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         gameManager.ClearPopulation();
-        UpdateSlider();
-        UpdateText();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
