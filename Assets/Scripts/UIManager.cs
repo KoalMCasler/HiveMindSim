@@ -64,6 +64,9 @@ public class UIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        gameManager.ClearPopulation();
+        UpdateSlider();
+        UpdateText();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

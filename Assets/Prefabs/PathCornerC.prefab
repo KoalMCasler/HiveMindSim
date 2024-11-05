@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7343429510525012522}
   - component: {fileID: 3227079217573400320}
   - component: {fileID: 1151500029846371135}
-  - component: {fileID: 2148318889931099806}
+  - component: {fileID: 4679888188683718767}
   m_Layer: 0
   m_Name: PathCornerC
   m_TagString: Untagged
@@ -141,7 +141,7 @@ MonoBehaviour:
   - {fileID: -7335167478820830968, guid: c26393d84489fdf458fd631ea8a696ce, type: 3}
   - {fileID: -1500196235607403390, guid: 207508d234b297d4e9366eec2afb6534, type: 3}
   - {fileID: -8102960937033614157, guid: 93a832ceab381fa42bc1f8e3adb14cdf, type: 3}
---- !u!114 &2148318889931099806
+--- !u!114 &4679888188683718767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

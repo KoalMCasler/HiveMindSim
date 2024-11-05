@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2454207859874240279}
   - component: {fileID: 4050528560186136164}
   - component: {fileID: 2661968908957601399}
-  - component: {fileID: 6792875777387764309}
+  - component: {fileID: -2577150000694337392}
   m_Layer: 0
   m_Name: pathVert
   m_TagString: Untagged
@@ -143,7 +143,7 @@ MonoBehaviour:
   - {fileID: -8185456594143889917, guid: 6e9830e0a74fc8642b06486b1795d6ad, type: 3}
   - {fileID: 1833665231007385866, guid: 51732045ed5117941a1e01dbf69844c4, type: 3}
   - {fileID: 2661968908957601399}
---- !u!114 &6792875777387764309
+--- !u!114 &-2577150000694337392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

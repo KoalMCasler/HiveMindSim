@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3787126308499016145}
   - component: {fileID: 4354662469947594925}
   - component: {fileID: -8185456594143889917}
-  - component: {fileID: -3735494548358572423}
+  - component: {fileID: 846456493490823537}
   m_Layer: 0
   m_Name: PathCornerD
   m_TagString: Untagged
@@ -141,7 +141,7 @@ MonoBehaviour:
   - {fileID: -4621946649528050616, guid: 31187ee2cfaee044ca119698156718f4, type: 3}
   - {fileID: -7335167478820830968, guid: c26393d84489fdf458fd631ea8a696ce, type: 3}
   - {fileID: -1500196235607403390, guid: 207508d234b297d4e9366eec2afb6534, type: 3}
---- !u!114 &-3735494548358572423
+--- !u!114 &846456493490823537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

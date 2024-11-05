@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1113716889382771003}
   - component: {fileID: 3506750351230102867}
   - component: {fileID: -1500196235607403390}
-  - component: {fileID: 5471731720420615870}
+  - component: {fileID: 1459831090368863471}
   m_Layer: 0
   m_Name: PathTC
   m_TagString: Spawn
@@ -124,7 +124,7 @@ MonoBehaviour:
   - {fileID: 6843077310972279220, guid: 58698e509cc13ac4389f73e653db7b82, type: 3}
   - {fileID: 1301996506846732080, guid: 9566163fa3f30ac44a2ca59b9b0afc06, type: 3}
   - {fileID: -8102960937033614157, guid: 93a832ceab381fa42bc1f8e3adb14cdf, type: 3}
---- !u!114 &5471731720420615870
+--- !u!114 &1459831090368863471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

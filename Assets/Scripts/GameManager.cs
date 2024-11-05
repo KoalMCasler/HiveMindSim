@@ -38,15 +38,16 @@ public class GameManager : MonoBehaviour
     {
         surface = GameObject.FindGameObjectWithTag("Surface").GetComponent<NavMeshSurface>();
         GetBuildings();
+        surface.BuildNavMesh();
         GetPopulation();
-        // for(int i = 0; i < infectedSpawnCount; i++)
-        // {
-        //     PickInfected();
-        // }
-        // for(int i = 0; i < clearMindSpawnCount; i++)
-        // {
-        //     PickClearMind();      
-        // }
+        for(int i = 0; i < infectedSpawnCount; i++)
+        {
+            PickInfected();
+        }
+        for(int i = 0; i < clearMindSpawnCount; i++)
+        {
+            PickClearMind();      
+        }
     }
 
     // Update is called once per frame
@@ -68,7 +69,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        surface.BuildNavMesh();
     }
 
     void GetPopulation()
@@ -116,5 +116,11 @@ public class GameManager : MonoBehaviour
         {
             PickInfected();
         }
+    }
+
+    public void ClearPopulation()
+    {
+        genPop.Clear();
+        hivePop.Clear();
     }
 }
