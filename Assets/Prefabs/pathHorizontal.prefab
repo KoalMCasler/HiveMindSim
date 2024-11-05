@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5710530574589832323}
   - component: {fileID: 7519994486333780891}
   - component: {fileID: -8102960937033614157}
+  - component: {fileID: -1275139696707897540}
   m_Layer: 0
   m_Name: pathHorizontal
   m_TagString: Untagged
@@ -142,3 +143,22 @@ MonoBehaviour:
   - {fileID: -7335167478820830968, guid: c26393d84489fdf458fd631ea8a696ce, type: 3}
   - {fileID: -1500196235607403390, guid: 207508d234b297d4e9366eec2afb6534, type: 3}
   - {fileID: 3144941425535398395, guid: e7ed8e5e88ec0d6418d9504d650915f6, type: 3}
+--- !u!114 &-1275139696707897540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4278229367507699262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff

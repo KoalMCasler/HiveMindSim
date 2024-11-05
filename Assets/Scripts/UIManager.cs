@@ -64,7 +64,6 @@ public class UIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        gameManager.Initialize();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

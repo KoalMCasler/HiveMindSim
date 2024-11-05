@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.AI.Navigation;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,8 +9,12 @@ public class GameManager : MonoBehaviour
     public List<GameObject> hivePop;
     public List<GameObject> genPop;
     public List<GameObject> buildings;
+    public GameObject[] spawnPoints;
     public float clearMindSpawnCount;
     public float infectedSpawnCount;
+    public NavMeshSurface surface;
+    public GameObject person;
+    public int maxPopulation;
 
     void Awake()
     {
@@ -26,21 +31,22 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Initialize();  
+        //Initialize();  
     }
 
     public void Initialize()
     {
+        surface = GameObject.FindGameObjectWithTag("Surface").GetComponent<NavMeshSurface>();
         GetBuildings();
         GetPopulation();
-        for(int i = 0; i < infectedSpawnCount; i++)
-        {
-            PickInfected();
-        }
-        for(int i = 0; i < clearMindSpawnCount; i++)
-        {
-            PickClearMind();      
-        }
+        // for(int i = 0; i < infectedSpawnCount; i++)
+        // {
+        //     PickInfected();
+        // }
+        // for(int i = 0; i < clearMindSpawnCount; i++)
+        // {
+        //     PickClearMind();      
+        // }
     }
 
     // Update is called once per frame
@@ -62,20 +68,22 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        surface.BuildNavMesh();
     }
 
     void GetPopulation()
     {
         hivePop.Clear();
         genPop.Clear();
-        GameObject[] people = GameObject.FindGameObjectsWithTag("Person");
-        if(people[0] != null)
+        
+        spawnPoints = GameObject.FindGameObjectsWithTag("Spawn");
+        if(spawnPoints[0] != null)
         {
-            foreach(GameObject i in people)
+            for(int i = 0; i < spawnPoints.Length; i++)
             { 
-                if(i.GetComponent<HiveMind>().mindState == HiveMind.MindState.singleMind || i.GetComponent<HiveMind>().mindState == HiveMind.MindState.clearMind)
+                if(genPop.Count < maxPopulation)
                 {
-                    genPop.Add(i);
+                    genPop.Add(Instantiate(person, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation));
                 }
             }
         }

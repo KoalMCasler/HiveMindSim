@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class HiveMind : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class HiveMind : MonoBehaviour
     public float maxFleeTime;
     private float distance;
     public float targetDistance;
+    public float minChangeDistance;
 
     void Start()
     {
@@ -40,6 +42,13 @@ public class HiveMind : MonoBehaviour
         {
             gameManager = FindObjectOfType<GameManager>();
         }
+    }
+
+    void Awake()
+    {
+        Vector3 scale = transform.localScale;
+        transform.localScale = Vector3.zero;
+        transform.DOScale(scale, 1f).SetEase(Ease.OutElastic);
     }
 
     // Update is called once per frame
@@ -89,12 +98,10 @@ public class HiveMind : MonoBehaviour
         {
             PickRandomBuilding();
             agent.SetDestination(target.transform.position);
-            turnTimer = maxTurnTimer;
         }
         else if(targetDistance < minDetectionRange)
         {
             PickRandomBuilding();
-            turnTimer = maxTurnTimer;
         }
         CheckTarget();
     }
@@ -219,7 +226,17 @@ public class HiveMind : MonoBehaviour
 
     void PickRandomBuilding()
     {
-        target = gameManager.buildings[Random.Range(0,gameManager.buildings.Count)];
+        List<GameObject> tempList = new List<GameObject>();
+        foreach(GameObject i in gameManager.buildings)
+        {
+            float distance = Vector3.Distance(transform.position, i.transform.position);
+            if(distance > minChangeDistance)
+            {
+                tempList.Add(i);
+            }
+        }
+        turnTimer = maxTurnTimer;
+        target = tempList[UnityEngine.Random.Range(0, tempList.Count)];
     }
 
     void FindHiveMember()

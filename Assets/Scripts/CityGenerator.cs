@@ -6,15 +6,17 @@ using System.Linq;
 
 public class CityGernerator : MonoBehaviour
 {
+    public GameManager gameManager;
     public int dimensions = 20;
     public Tile[] tileObjects;
     public List<Cell> gridComponents;
     public Cell cellObj;
     public Tile[] backupTiles;
-    private int iteration;
+    public int iteration;
     public float frequency;
     private void Awake()
     {
+        gameManager =  FindObjectOfType<GameManager>();
         gridComponents = new List<Cell>();
         InitializeGrid();
     }
@@ -193,6 +195,10 @@ public class CityGernerator : MonoBehaviour
         if (iteration < dimensions * dimensions)
         {
             StartCoroutine(CheckEntropy());
+        }
+        else
+        {
+            gameManager.Initialize();
         }
     }
     /// <summary>

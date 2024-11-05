@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.01, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.33, y: 0.33, z: 0.33}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2427659396914228106}
@@ -147,10 +147,10 @@ NavMeshAgent:
   m_GameObject: {fileID: 5963177986324295190}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5000001
-  m_Speed: 5
+  m_Radius: 0.25
+  m_Speed: 1
   m_Acceleration: 10
-  avoidancePriority: 50
+  avoidancePriority: 0
   m_AngularSpeed: 180
   m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
@@ -182,14 +182,15 @@ MonoBehaviour:
   singleMindColor: {fileID: 2100000, guid: 6e2510cd235f303448fb669837fdf66a, type: 2}
   clearMindColor: {fileID: 2100000, guid: cb838b41f7d8eca4d97f3f0460fca504, type: 2}
   fleeingColor: {fileID: 2100000, guid: 68d5a70b0088ed04b9f5a878d8d3b188, type: 2}
-  maxDetectionRange: 75
-  minDetectionRange: 10
-  attackRange: 1
+  maxDetectionRange: 25
+  minDetectionRange: 5
+  attackRange: 0.35
   turnTimer: 0
-  maxTurnTimer: 15
+  maxTurnTimer: 10
   fleeTime: 0
   maxFleeTime: 3
   targetDistance: 0
+  minChangeDistance: 10
 --- !u!1 &7358652767427219988
 GameObject:
   m_ObjectHideFlags: 0
