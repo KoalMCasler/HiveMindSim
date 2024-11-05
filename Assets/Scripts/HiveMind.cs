@@ -17,7 +17,7 @@ public class HiveMind : MonoBehaviour
     public ActionState actionState;
     [Header("Variables")]
     public GameObject target;
-    public GameObject newTarget;
+    public GameObject oldTarget;
     public GameObject head;
     public Material hiveMindColor;
     public Material singleMindColor;
@@ -39,7 +39,7 @@ public class HiveMind : MonoBehaviour
         agent = this.GetComponent<NavMeshAgent>();
         fleeTime = maxFleeTime;
         target = null;
-        newTarget = null;
+        oldTarget = null;
         if(gameManager == null)
         {
             gameManager = FindObjectOfType<GameManager>();
@@ -51,12 +51,11 @@ public class HiveMind : MonoBehaviour
         Vector3 scale = transform.localScale;
         transform.localScale = Vector3.zero;
         transform.DOScale(scale, 1f).SetEase(Ease.OutElastic);
-        turnTimer = 0;
-        CheckSuroundings();
+        StartCoroutine(StartingMove());
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         switch(actionState)
         {
@@ -90,14 +89,14 @@ public class HiveMind : MonoBehaviour
         }
         if(target != null)
         {
+            CheckForNewTarget();
             targetDistance = Vector3.Distance(this.transform.position, target.transform.position);
         }
-        CheckSuroundings();
-        CheckForNewTarget();
     }
 
     void Wander()
     {
+        CheckSuroundings();
         turnTimer -= Time.deltaTime;
         if(turnTimer <= 0)
         {
@@ -111,6 +110,8 @@ public class HiveMind : MonoBehaviour
 
     void Flee()
     {
+        CheckSuroundings();
+        PickRandomBuilding();
         fleeTime -= Time.deltaTime;
         if(fleeTime < 0)
         {
@@ -122,6 +123,7 @@ public class HiveMind : MonoBehaviour
 
     void Attack()
     {
+        CheckSuroundings();
         if(target != null)
         {
             if(targetDistance < attackRange && target.GetComponent<HiveMind>().mindState == MindState.singleMind)
@@ -145,9 +147,14 @@ public class HiveMind : MonoBehaviour
 
     void Search()
     {
+        CheckSuroundings();
         if(target != null)
         {
             CheckTarget();
+        }
+        else
+        {
+            PickRandomBuilding();
         }
     }
 
@@ -162,16 +169,12 @@ public class HiveMind : MonoBehaviour
                 distances.Add(distance);
             }
             if(distances[distances.IndexOf(distances.Min())] < maxDetectionRange)
-            {   
-                newTarget = gameManager.genPop[distances.IndexOf(distances.Min())];
+            {  
+                target = gameManager.genPop[distances.IndexOf(distances.Min())];
             }
-            if(target != null && target.GetComponent<HiveMind>().mindState == MindState.clearMind && actionState != ActionState.fleeing)
+            if(target.GetComponent<HiveMind>().mindState == MindState.clearMind && actionState != ActionState.fleeing)
             {
                 actionState = ActionState.fleeing;
-            }
-            else if(actionState == ActionState.fleeing)
-            {
-                PickRandomBuilding();
             }
             else
             {
@@ -189,7 +192,7 @@ public class HiveMind : MonoBehaviour
             {
                 if(distances[distances.IndexOf(distances.Min())] < maxDetectionRange)
                 {   
-                    newTarget = gameManager.hivePop[distances.IndexOf(distances.Min())];
+                    target = gameManager.hivePop[distances.IndexOf(distances.Min())];
                 }
                 else
                 {
@@ -201,15 +204,16 @@ public class HiveMind : MonoBehaviour
 
     void CheckForNewTarget()
     {
-        if(target != newTarget && newTarget != null)
+        if(target != oldTarget)
         {
-            target = newTarget;
             agent.SetDestination(target.transform.position);
+            oldTarget = target;
         }
     }
 
     void CheckTarget()
     {
+        if(target.GetComponent<HiveMind>() == null) return;
         if(target.GetComponent<HiveMind>().mindState == HiveMind.MindState.singleMind)
         {
             if(mindState == MindState.singleMind)
@@ -246,13 +250,12 @@ public class HiveMind : MonoBehaviour
             }
         }
         turnTimer = maxTurnTimer;
-        if(tempList.Count >= 0)
-        {
-            newTarget = tempList[UnityEngine.Random.Range(0, tempList.Count)];
-        }
-        else
-        {
-            newTarget = gameManager.buildings[UnityEngine.Random.Range(0, gameManager.buildings.Count)];
-        }
+        target = tempList[UnityEngine.Random.Range(0, tempList.Count)];
+    }
+
+    IEnumerator StartingMove()
+    {
+        yield return new WaitForSeconds(1);
+        turnTimer = -1;
     }
 }
