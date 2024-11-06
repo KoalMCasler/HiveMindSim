@@ -12,9 +12,8 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
+        Vector3 scale = transform.localScale;
         transform.localScale = Vector3.zero;
-
-        transform.DOScale(Vector3.one, 1f)
-            .SetEase(Ease.OutElastic);
+        transform.DOScale(scale, 1f).SetEase(Ease.OutElastic);
     }
 }

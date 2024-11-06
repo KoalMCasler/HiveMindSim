@@ -44,20 +44,12 @@ public class GameManager : MonoBehaviour
         GetBuildings();
         surface.BuildNavMesh();
         StartCoroutine(MakePeople());
-        // for(int i = 0; i < infectedSpawnCount; i++)
-        // {
-        //     PickInfected();
-        // }
-        // for(int i = 0; i < clearMindSpawnCount; i++)
-        // {
-        //     PickClearMind();      
-        // }
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
     void GetBuildings()
     {
@@ -77,9 +69,6 @@ public class GameManager : MonoBehaviour
 
     void GetPopulation()
     {
-        hivePop.Clear();
-        genPop.Clear();
-        
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawn");
         if(spawnPoints[0] != null)
         {
@@ -89,6 +78,17 @@ public class GameManager : MonoBehaviour
             if(population < maxPopulation)
             {
                 StartCoroutine(MakePeople());
+            }
+            if(population >= maxPopulation)
+            {
+                for(int i = 0; i < infectedSpawnCount; i++)
+                {
+                    PickInfected();
+                }
+                for(int i = 0; i < clearMindSpawnCount; i++)
+                {
+                    PickClearMind();      
+                }
             }
         }
     }

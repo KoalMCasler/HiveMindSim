@@ -30,7 +30,7 @@ public class CityGernerator : MonoBehaviour
         {
             for(int x = 0; x < dimensions; x++)
             {
-                Cell newCell = Instantiate(cellObj, new Vector3(x, 0, y), Quaternion.identity,transform);
+                Cell newCell = Instantiate(cellObj, new Vector3(x*3, 0, y*3), Quaternion.identity,transform);
                 newCell.CreateCell(false, tileObjects);
                 gridComponents.Add(newCell);
             }
