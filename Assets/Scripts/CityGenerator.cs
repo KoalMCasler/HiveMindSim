@@ -13,6 +13,7 @@ public class CityGernerator : MonoBehaviour
     public Cell cellObj;
     public Tile[] backupTiles;
     public int iteration;
+    public int maxIteration;
     public float frequency;
     private void Awake()
     {
@@ -192,7 +193,7 @@ public class CityGernerator : MonoBehaviour
         gridComponents = newGenerationCell;
         iteration++;
 
-        if (iteration < dimensions * dimensions)
+        if (iteration < maxIteration)
         {
             StartCoroutine(CheckEntropy());
         }
