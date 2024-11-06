@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
+using System;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +17,8 @@ public class GameManager : MonoBehaviour
     public NavMeshSurface surface;
     public GameObject person;
     public int maxPopulation;
+    private int population;
+    public float spawnFrequency;
 
     void Awake()
     {
@@ -39,7 +43,7 @@ public class GameManager : MonoBehaviour
         surface = GameObject.FindGameObjectWithTag("Surface").GetComponent<NavMeshSurface>();
         GetBuildings();
         surface.BuildNavMesh();
-        GetPopulation();
+        StartCoroutine(MakePeople());
         // for(int i = 0; i < infectedSpawnCount; i++)
         // {
         //     PickInfected();
@@ -79,16 +83,24 @@ public class GameManager : MonoBehaviour
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawn");
         if(spawnPoints[0] != null)
         {
-            for(int i = 0; i < spawnPoints.Length; i++)
-            { 
-                genPop.Add(Instantiate(person, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation));
+            maxPopulation = spawnPoints.Count();
+            genPop.Add(Instantiate(person, spawnPoints[population].transform.position, spawnPoints[population].transform.rotation));
+            population ++;
+            if(population < maxPopulation)
+            {
+                StartCoroutine(MakePeople());
             }
         }
     }
 
+    IEnumerator MakePeople()
+    {
+        yield return new WaitForSeconds(spawnFrequency);
+        GetPopulation();
+    }
     void PickClearMind()
     {
-        GameObject target = genPop[Random.Range(0,genPop.Count)];
+        GameObject target = genPop[UnityEngine.Random.Range(0,genPop.Count)];
         if(target.GetComponent<HiveMind>().mindState != HiveMind.MindState.clearMind)
         {
             target.GetComponent<HiveMind>().mindState = HiveMind.MindState.clearMind;
@@ -102,7 +114,7 @@ public class GameManager : MonoBehaviour
 
     void PickInfected()
     {
-        GameObject target = genPop[Random.Range(0,genPop.Count)];
+        GameObject target = genPop[UnityEngine.Random.Range(0,genPop.Count)];
         if(target.GetComponent<HiveMind>().mindState != HiveMind.MindState.clearMind)
         {
             target.GetComponent<HiveMind>().mindState = HiveMind.MindState.hiveMind;
@@ -119,5 +131,7 @@ public class GameManager : MonoBehaviour
     {
         genPop.Clear();
         hivePop.Clear();
+        spawnPoints = new GameObject[1];
+        population = 0;
     }
 }

@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -712.1273, y: 404}
-  m_SizeDelta: {x: 477.0887, y: 237.93}
+  m_AnchoredPosition: {x: -712.1273, y: 475}
+  m_SizeDelta: {x: 477.0887, y: 95.5128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &53447906
 MonoBehaviour:
@@ -464,6 +464,7 @@ MonoBehaviour:
   surface: {fileID: 1244081641}
   person: {fileID: 5963177986324295190, guid: 55a8e66dea5f42b47a69a5b4e0fc63cd, type: 3}
   maxPopulation: 50
+  spawnFrequency: 0.025
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,7 +1406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -172, y: 66}
+  m_AnchoredPosition: {x: -172, y: 3}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1819439850
