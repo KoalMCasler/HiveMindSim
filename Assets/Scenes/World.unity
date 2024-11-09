@@ -466,7 +466,7 @@ MonoBehaviour:
   person: {fileID: 5963177986324295190, guid: 55a8e66dea5f42b47a69a5b4e0fc63cd, type: 3}
   maxPopulation: 50
   spawnFrequency: 0.025
-  reloadTime: 5
+  reloadTime: 15
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
