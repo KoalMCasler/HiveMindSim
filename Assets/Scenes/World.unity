@@ -455,6 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a3b1e67bdd88f498da0aae0d8065aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uIManager: {fileID: 1974463466}
   hivePop: []
   genPop: []
   buildings: []
@@ -465,6 +466,7 @@ MonoBehaviour:
   person: {fileID: 5963177986324295190, guid: 55a8e66dea5f42b47a69a5b4e0fc63cd, type: 3}
   maxPopulation: 50
   spawnFrequency: 0.025
+  reloadTime: 5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

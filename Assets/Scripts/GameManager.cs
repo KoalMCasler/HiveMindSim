@@ -8,6 +8,7 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
+    public UIManager uIManager;
     public List<GameObject> hivePop;
     public List<GameObject> genPop;
     public List<GameObject> buildings;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     public int maxPopulation;
     private int population;
     public float spawnFrequency;
+    public int reloadTime;
 
     void Awake()
     {
@@ -89,8 +91,15 @@ public class GameManager : MonoBehaviour
                 {
                     PickClearMind();      
                 }
+                StartCoroutine(AutoReset());
             }
         }
+    }
+
+    IEnumerator AutoReset()
+    {
+        yield return new WaitForSeconds(reloadTime);
+        uIManager.ReloadScene();
     }
 
     IEnumerator MakePeople()
